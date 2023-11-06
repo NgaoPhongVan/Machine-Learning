@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import nltk
 nltk.download('wordnet')
 
-# read the file
 reviews_train = []
 for line in open('full_train.txt', 'r', encoding ='utf-8'):
     reviews_train.append(line.strip())
@@ -11,7 +10,6 @@ reviews_test = []
 for line in open('full_test.txt', 'r', encoding ='utf-8'):
     reviews_test.append(line.strip())
 
-# clean and preprocess
 import re
 REPLACE_NO_SPACE = re.compile("[.;:!\'?,\"()\\[\\]]")
 REPLACE_WITH_SPACE = re.compile("(<br\\s*/><br\\s*/>)|(\\-)|(\\/)")
@@ -24,7 +22,6 @@ def preprocess_reviews(reviews):
 reviews_train_clean = preprocess_reviews(reviews_train)
 reviews_test_clean = preprocess_reviews(reviews_test)
 
-# nomorlization
 def get_lemmatized_text(corpus):
     from nltk.stem import WordNetLemmatizer
     lemmatizer = WordNetLemmatizer()
@@ -33,7 +30,6 @@ def get_lemmatized_text(corpus):
 reviews_train_clean = get_lemmatized_text(reviews_train_clean)
 reviews_test_clean = get_lemmatized_text(reviews_test_clean)
 
-# vectorization
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 stop_words = ['in', 'of', 'at', 'a', 'the']
@@ -42,7 +38,6 @@ tfidf_vectorizer.fit(reviews_train_clean)
 X = tfidf_vectorizer.transform(reviews_train_clean)
 X_test = tfidf_vectorizer.transform(reviews_test_clean)
 
-# classifier find c
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import MultinomialNB
